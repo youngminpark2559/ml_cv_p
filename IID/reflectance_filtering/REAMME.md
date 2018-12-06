@@ -49,33 +49,33 @@ python train.py --epoch=20 --batch_size=20
 utils_image.py
 
 ## Loss
-Tnestmeyer loss
+Tnestmeyer loss  
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/train/loss_one.png)
 
-GCINTRINSICS loss
+GCINTRINSICS loss  
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/train/loss_cgintrinsic.png)
 
 ## Result
-Prediction intensity image
-54_000_raw_intensity.png
+Prediction intensity image  
+54_000_raw_intensity.png  
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/result/54_000_raw_intensity.png)
 
 Apply bilater filter (sigmaColor=20, sigmaSpace=20) to above predicted raw intensity image
-54_000_raw_intensity_bi2020.png
+54_000_raw_intensity_bi2020.png  
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/utils/54_000_raw_intensity_bi2020.png)
 
 Obtained predicted reflectance image by using 54_000_raw_intensity_bi2020.png and original image 54.png
-54_000_raw_intensity_bi2020_ref.png
+54_000_raw_intensity_bi2020_ref.png  
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/utils/54_000_raw_intensity_bi2020_ref.png)
 
 Obtained predicted shading image by using 54_000_raw_intensity_bi2020.png and original image 54.png
-54_000_raw_intensity_bi2020_sha.png
+54_000_raw_intensity_bi2020_sha.png  
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/utils/54_000_raw_intensity_bi2020_sha.png)
 
 Apply guided filter (radius=2, eps=2) to 54_000_raw_intensity_bi2020_ref.png
-54_000_raw_intensity_bi2020ref_guided22.png
+54_000_raw_intensity_bi2020ref_guided22.png  
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/utils/54_000_raw_intensity_bi2020ref_guided22.png)
 
 Obtained predicted shading image by using 54_000_raw_intensity_bi2020ref_guided22.png and original image 54.png
-54_000_raw_intensity_bi2020sha_guided22.png
+54_000_raw_intensity_bi2020sha_guided22.png  
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/utils/54_000_raw_intensity_bi2020sha_guided22.png)
