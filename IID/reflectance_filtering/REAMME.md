@@ -49,13 +49,12 @@ python train.py --epoch=20 --batch_size=20
 utils_image.py
 
 ## Loss
-Tnestmeyer loss  
-![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/train/loss_one.png)
-
-GCINTRINSICS loss  
-![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/train/loss_cgintrinsic.png)
+![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/train/loss.png)
 
 ## Result
+More results are in  
+https://github.com/youngminpark2559/ml_cv_p/tree/master/IID/reflectance_filtering/result  
+
 Prediction intensity image  
 54_000_raw_intensity.png  
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/result/54_000_raw_intensity.png)
