@@ -53,8 +53,12 @@ class Direct_Reflectance_Prediction_Net(nn.Module):
             nn.Softplus())
         self.layer5.apply(init_weights)
 
+        # Need to test 3 channel output and 1 channel output,
+        # to see which is better
+        # In case of 3 channel output, you will use mean of predicted intensity image
+        # for exampel, refl_img=torch.mean(o_p_ref,dim=0,keepdim=True).squeeze()
         self.last_conv=nn.Sequential(
-            nn.Conv2d(160,3,kernel_size=1,padding=0),
+            nn.Conv2d(160,1,kernel_size=1,padding=0),
             nn.Softplus())
         self.last_conv.apply(init_weights)
 
@@ -72,6 +76,8 @@ class Direct_Reflectance_Prediction_Net(nn.Module):
 
         out=self.last_conv(cat_features)
 
-        out=self.sigmoid(out)
+        # Need to test with sigmoid and without sigmoid,
+        # to see which is better
+        # out=self.sigmoid(out)
        
         return out

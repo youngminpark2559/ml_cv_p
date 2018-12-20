@@ -70,9 +70,11 @@ def eval_single_comparison_with_SVM_hinge_loss(o_p_ref,comparisons,hrjf,o_ori_im
     # o_p_ref torch.Size([3, 3, 384, 512])
 
     # c refl_img: mean of one predicted reflectance
-    refl_img=torch.mean(o_p_ref,dim=0,keepdim=True).squeeze()
+    # refl_img=torch.mean(o_p_ref,dim=0,keepdim=True).squeeze()
     # print("m_o_p_ref",m_o_p_ref.shape)
     # m_o_p_ref torch.Size([341, 512])
+
+    refl_img=o_p_ref.squeeze()
 
     # --------------------------------------------------
     rows=o_ori_img.shape[0]
@@ -83,6 +85,7 @@ def eval_single_comparison_with_SVM_hinge_loss(o_p_ref,comparisons,hrjf,o_ori_im
     error_sum=0.0
     # c weight_sum: sum all weights from all comparisons in one image
     weight_sum=0.0
+    num_comp=float(len(comparisons))
 
     # --------------------------------------------------
     # JSON GT for 1 image, 
@@ -124,9 +127,11 @@ def eval_single_comparison_with_SVM_hinge_loss(o_p_ref,comparisons,hrjf,o_ori_im
                            darker
 
         # --------------------------------------------------        
-        # c R1: scalar value of point1 from predicted intensity image
+        # c R1: scalar intensity value of point1 from predicted intensity image
         R1=refl_img[y1,x1]
         R2=refl_img[y2,x2]
+        R2=torch.where(
+            torch.abs(R2)<1e-4,torch.Tensor([1e-4]).squeeze().cuda(),R2)
         
         # --------------------------------------------------
         div_R1_R2=torch.div(R1,R2)
@@ -172,7 +177,7 @@ def eval_single_comparison_with_SVM_hinge_loss(o_p_ref,comparisons,hrjf,o_ori_im
         whdr=0.0
 
     # Return whdr score of one image
-    return whdr
+    return whdr/num_comp
 # endregion original iiw loss
 
 # region original iiw loss, updated with log
