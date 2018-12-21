@@ -59,12 +59,39 @@ def train():
     batch_size=int(args.batch_size)
     epoch=int(args.epoch)
 
-    # --------------------------------------------------
+    # # ======================================================================
+    # # Data load by bringing images from text files which contain paths
+    # # c iiw_tr_img_p: iiw train images path
+    # iiw_tr_img_p="/mnt/1T-5e7/image/whole_dataset/iiw_data_img.txt"
+    # # c iiw_gt_json_p: iiw ground truth images path
+    # iiw_gt_json_p="/mnt/1T-5e7/image/whole_dataset/iiw_data_json.txt"
+
+    # # --------------------------------------------------
+    # iiw_tr_p,iiw_tr_num=utils_common.return_path_list_from_txt(iiw_tr_img_p)
+    # iiw_gt_p,iiw_gt_num=utils_common.return_path_list_from_txt(iiw_gt_json_p)
+
+    # num_imgs=len(tr_img_li)
+    # num_imgs_float=float(num_imgs)
+
+    # # --------------------------------------------------
+    # # Shuffle list
+    # # c iiw_d_list: iiw dataset list
+    # iiw_d_list=list(zip(iiw_tr_p,iiw_gt_p))
+    # shuffle(iiw_d_list)
+    # # print("iiw_d_list",iiw_d_list)
+
+    # # --------------------------------------------------
+    # print("Current number of images:",num_imgs)
+    # print("Current batch size:",args.batch_size)
+    # print("Possible batch size:",list(utils_common.divisorGenerator(num_imgs)))
+    # assert str(num_imgs/batch_size).split(".")[-1]==str(0),"Check batch size"
+
+    # ======================================================================
+    # Data load by bringing images from directories
     # c tr_img_p: train images path
-    # tr_img_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data/iiw_016/*.png"
-    tr_img_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data3/train/*.png"
+    tr_img_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data/temp/*.png"
     # c gt_json_p: ground truth images path
-    gt_json_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data3/train/*.json"
+    gt_json_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data/temp/*.json"
 
     # --------------------------------------------------
     # c tr_img_li: train images list
@@ -210,7 +237,7 @@ def train():
     # Test trained model
 
     # with torch.no_grad():
-    #     tr_img_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/train_with_100100patches/original_tr/test/temp/*.png"
+    #     tr_img_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data/temp/*.png"
     #     tr_img_li=utils_common.get_file_list(tr_img_p)
     #     iteration=int(len(tr_img_li))
         
@@ -233,22 +260,29 @@ def train():
     #         for one_pred_img in range(pred_inten_imgs.shape[0]):
     #             # --------------------------------------------------
     #             # c pred_one_inten_img: prediction one intensity image
-    #             pred_inten_img=pred_inten_imgs[one_pred_img,:,:,:].unsqueeze(0)
-    #             pred_one_inten_img=torch.mean(pred_inten_img,dim=1,keepdim=True)
+    #             pred_one_inten_img=pred_inten_imgs[one_pred_img,:,:,:].unsqueeze(0)
     #             pred_one_inten_img=torch.nn.functional.interpolate(
     #                 pred_one_inten_img,size=(ori_h,ori_w),scale_factor=None,mode='bilinear',align_corners=True)
     #             pred_one_inten_img=pred_one_inten_img.squeeze().detach().cpu().numpy()
+    #             one_ori_img=o_l_tr_i_0_255/255.0
+    #             # print("one_ori_img",one_ori_img.shape)
+    #             # one_ori_img (720, 1280, 3)
 
     #             # --------------------------------------------------
-    #             ref,sha=utils_image.colorize(pred_one_inten_img,o_l_tr_i)
+    #             ref,sha=utils_image.colorize(pred_one_inten_img,one_ori_img)
+                
+    #             # ref=np.clip(ref,0.0,1.2)
+    #             # ref=cv2.normalize(ref,None,alpha=0,beta=1,norm_type=cv2.NORM_MINMAX,dtype=cv2.CV_32F)
     #             ref=utils_image.rgb_to_srgb(ref)
+    #             ref[np.abs(ref)<0.0001]=0.0001
+    #             sha=one_ori_img/ref
+    #             sha=np.clip(sha,0.0,1.3)[:,:,0]
+    #             # sha=cv2.normalize(sha,None,alpha=0,beta=1,norm_type=cv2.NORM_MINMAX,dtype=cv2.CV_32F)
 
-    #             print("np.min(pred_one_inten_img)",np.min(pred_one_inten_img))
-    #             print("np.max(pred_one_inten_img)",np.max(pred_one_inten_img))
-
-    #             # pred_one_inten_img=cv2.normalize(pred_one_inten_img,None,alpha=0,beta=1,norm_type=cv2.NORM_MINMAX,dtype=cv2.CV_32F)
-    #             ref=cv2.normalize(ref,None,alpha=0,beta=1,norm_type=cv2.NORM_MINMAX,dtype=cv2.CV_32F)
-    #             sha=cv2.normalize(sha,None,alpha=0,beta=1,norm_type=cv2.NORM_MINMAX,dtype=cv2.CV_32F)
+    #             print("np.min(pred_one_inten_img)",np.min(ref))
+    #             print("np.max(pred_one_inten_img)",np.max(ref))
+    #             print("np.min(pred_one_inten_img)",np.min(sha))
+    #             print("np.max(pred_one_inten_img)",np.max(sha))
 
     #             # --------------------------------------------------
     #             scipy.misc.imsave('/home/young/Downloads/test-master/update_CNN/result/'+fn+'_raw_intensity.png',pred_one_inten_img)
