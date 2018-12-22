@@ -59,7 +59,8 @@ def print_network(net,struct=False):
 
     print('Total number of parameters: %d' % num_params)
 
-def net_generator(batch_size,continue_training):
+def net_generator(batch_size,args):
+
     gen_net=networks.Direct_Reflectance_Prediction_Net().cuda()
     # gen_net=networks.Residual_Net().cuda()
     
@@ -76,9 +77,8 @@ def net_generator(batch_size,continue_training):
     print_network(gen_net)
 
     # --------------------------------------------------
-    if continue_training=="True":
-        checkpoint_Direct_Reflectance_Prediction_Net=torch.load(
-            "/home/young/Downloads/test-master/update_CNN/checkpoint/Direct_Reflectance_Prediction_Net.pth")
+    if args.continue_training=="True":
+        checkpoint_Direct_Reflectance_Prediction_Net=torch.load(args.checkpoint_file_path)
         gen_net.load_state_dict(checkpoint_Direct_Reflectance_Prediction_Net['state_dict'])
         optimizer.load_state_dict(checkpoint_Direct_Reflectance_Prediction_Net['optimizer'])
 

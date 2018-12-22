@@ -49,14 +49,29 @@ checkpoint_path="/home/young/Downloads/test-master/update_CNN/checkpoint/Direct_
 Find following
 checkpoint_Direct_Reflectance_Prediction_Net=torch.load(
 
-## Run example
-python train.py \
---epoch=20 \
---batch_size=20 \
---train_mode=True \
---load_data_from_text_file=False \
---continue_training=False
+## Train
+Comment Test part from
+Test trained model
+to before if __name__ == "__main__":
+in train.py
 
+Uncomment from
+Iterates all epochs
+to before Test trained model
+in train.py
+
+## Test
+Comment Train part
+
+Uncomment from
+Test trained model
+to before if __name__ == "__main__":
+in train.py
+
+## Run to create predicted intensity grayscale image
+```
+python train.py --epoch=20 --batch_size=20
+```
 ## After getting predicted intensity image, you can apply bilater and guided filters in
 utils_image.py
 

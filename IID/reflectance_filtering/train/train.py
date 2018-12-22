@@ -2,10 +2,15 @@
 # cd /home/young/Downloads/test-master/update_CNN/train/
 # rm e.l && python train.py \
 # --epoch=20 \
-# --batch_size=20 \
+# --batch_size=15 \
 # --train_mode=True \
 # --load_data_from_text_file=False \
 # --continue_training=False \
+# --iiw_dataset_dir="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data/temp" \
+# --iiw_dataset_img_text_file="/mnt/1T-5e7/image/whole_dataset/iiw_data_img.txt" \
+# --iiw_dataset_gt_text_file="/mnt/1T-5e7/image/whole_dataset/iiw_data_json.txt" \
+# --checkpoint_save_dir="/home/young/Downloads/test-master/update_CNN/checkpoint" \
+# --checkpoint_file_path="./checkpoint/Direct_Reflectance_Prediction_Net.pth" \
 # 2>&1 | tee -a e.l && code e.l
 
 import torch
@@ -69,9 +74,9 @@ def train():
         # ======================================================================
         # Data load by bringing images from text files which contain paths
         # c iiw_tr_img_p: iiw train images path
-        iiw_tr_img_p="/mnt/1T-5e7/image/whole_dataset/iiw_data_img.txt"
+        iiw_tr_img_p=args.iiw_dataset_img_text_file
         # c iiw_gt_json_p: iiw ground truth images path
-        iiw_gt_json_p="/mnt/1T-5e7/image/whole_dataset/iiw_data_json.txt"
+        iiw_gt_json_p=args.iiw_dataset_gt_text_file
 
         # --------------------------------------------------
         iiw_tr_p,iiw_tr_num=utils_common.return_path_list_from_txt(iiw_tr_img_p)
@@ -97,9 +102,9 @@ def train():
         # ======================================================================
         # Data load by bringing images from directories
         # c tr_img_p: train images path
-        tr_img_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data/temp/*.png"
+        tr_img_p=args.iiw_dataset_dir+"/*.png"
         # c gt_json_p: ground truth images path
-        gt_json_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data/temp/*.json"
+        gt_json_p=args.iiw_dataset_dir+"/*.json"
 
         # --------------------------------------------------
         # c tr_img_li: train images list
@@ -124,9 +129,9 @@ def train():
     # ======================================================================
     if args.continue_training==True:
         # c gen_net: generated network
-        gen_net,optimizer=utils_net.net_generator(batch_size,args.continue_training)
+        gen_net,optimizer=utils_net.net_generator(batch_size,args)
     else:
-        gen_net,optimizer=utils_net.net_generator(batch_size,args.continue_training)
+        gen_net,optimizer=utils_net.net_generator(batch_size,args)
 
     # ======================================================================
     # List for loss visualization
@@ -226,10 +231,10 @@ def train():
 
             # ======================================================================
             # Save trained parameters at every epoch
-            checkpoint_path="/home/young/Downloads/test-master/update_CNN/checkpoint/Direct_Reflectance_Prediction_Net_"+str(one_ep)+".pth"
+            checkpoint_path=args.checkpoint_save_dir+"/Direct_Reflectance_Prediction_Net_"+str(one_ep)+".pth"
             utils_net.save_checkpoint(
                 {'state_dict':gen_net.state_dict(),
-                'optimizer':optimizer.state_dict()}, 
+                 'optimizer':optimizer.state_dict()}, 
                 checkpoint_path)
 
             # ======================================================================
@@ -296,9 +301,9 @@ def train():
                     print("np.max(pred_one_inten_img)",np.max(sha))
 
                     # --------------------------------------------------
-                    scipy.misc.imsave('/home/young/Downloads/test-master/update_CNN/result/'+fn+'_raw_intensity.png',pred_one_inten_img)
-                    scipy.misc.imsave('/home/young/Downloads/test-master/update_CNN/result/'+fn+'_ref.png',ref)
-                    scipy.misc.imsave('/home/young/Downloads/test-master/update_CNN/result/'+fn+'_sha.png',sha)
+                    scipy.misc.imsave('./result/'+fn+'_raw_intensity.png',pred_one_inten_img)
+                    scipy.misc.imsave('./result/'+fn+'_ref.png',ref)
+                    scipy.misc.imsave('./result/'+fn+'_sha.png',sha)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -325,18 +330,23 @@ if __name__ == "__main__":
         "--continue_training",
         default=False,)
 
-    # --------------------------------------------------
     parser.add_argument(
-        "--train_dir",
-        help="--train_dir /home/os_user_name/test_input_dir/train/")
-
+        "--iiw_dataset_dir")
+    
     parser.add_argument(
-        "--trained_network_path")
-
+        "--iiw_dataset_text_file")
+    
     parser.add_argument(
-        "--use_pretrained_resnet152",
-        default=False,
-        help="True or False")
+        "--checkpoint_save_dir")
+    
+    parser.add_argument(
+        "--checkpoint_file_path")
+    
+    parser.add_argument(
+        "--iiw_dataset_img_text_file")
+    
+    parser.add_argument(
+        "--iiw_dataset_gt_text_file")
 
     # --------------------------------------------------
     # args = parser.parse_args(sys.argv[1:])
