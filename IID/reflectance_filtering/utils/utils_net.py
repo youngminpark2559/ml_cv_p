@@ -59,7 +59,7 @@ def print_network(net,struct=False):
 
     print('Total number of parameters: %d' % num_params)
 
-def net_generator(batch_size):
+def net_generator(batch_size,continue_training):
     gen_net=networks.Direct_Reflectance_Prediction_Net().cuda()
     # gen_net=networks.Residual_Net().cuda()
     
@@ -76,15 +76,16 @@ def net_generator(batch_size):
     print_network(gen_net)
 
     # --------------------------------------------------
-    # checkpoint_Direct_Reflectance_Prediction_Net=torch.load(
-    #     "/home/young/Downloads/test-master/update_CNN/checkpoint/Direct_Reflectance_Prediction_Net.pth")
-    # gen_net.load_state_dict(checkpoint_Direct_Reflectance_Prediction_Net['state_dict'])
-    # optimizer.load_state_dict(checkpoint_Direct_Reflectance_Prediction_Net['optimizer'])
+    if continue_training=="True":
+        checkpoint_Direct_Reflectance_Prediction_Net=torch.load(
+            "/home/young/Downloads/test-master/update_CNN/checkpoint/Direct_Reflectance_Prediction_Net.pth")
+        gen_net.load_state_dict(checkpoint_Direct_Reflectance_Prediction_Net['state_dict'])
+        optimizer.load_state_dict(checkpoint_Direct_Reflectance_Prediction_Net['optimizer'])
 
-    # checkpoint_Residual_Net=torch.load(
-    #     "/home/young/Downloads/test-master/update_CNN/checkpoint/Residual_Net.pth")
-    # gen_net.load_state_dict(checkpoint_Residual_Net['state_dict'])
-    # optimizer.load_state_dict(checkpoint_Residual_Net['optimizer'])
+        # checkpoint_Residual_Net=torch.load(
+        #     "/home/young/Downloads/test-master/update_CNN/checkpoint/Residual_Net.pth")
+        # gen_net.load_state_dict(checkpoint_Residual_Net['state_dict'])
+        # optimizer.load_state_dict(checkpoint_Residual_Net['optimizer'])
     
     # return gen_net,optimizer,scheduler
     return gen_net,optimizer

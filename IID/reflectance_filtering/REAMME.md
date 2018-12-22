@@ -41,6 +41,33 @@ gt_json_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data3/train/
 ```
 with your path of IIW dataset
 
+## Change model save directory
+Find following
+checkpoint_path="/home/young/Downloads/test-master/update_CNN/checkpoint/Direct_Reflectance_Prediction_Net_"+str(one_ep)+".pth"
+
+## Change model load directory
+Find following
+checkpoint_Direct_Reflectance_Prediction_Net=torch.load(
+
+## Train
+Comment Test part from
+Test trained model
+to before if __name__ == "__main__":
+in train.py
+
+Uncomment from
+Iterates all epochs
+to before Test trained model
+in train.py
+
+## Test
+Comment Train part
+
+Uncomment from
+Test trained model
+to before if __name__ == "__main__":
+in train.py
+
 ## Run to create predicted intensity grayscale image
 ```
 python train.py --epoch=20 --batch_size=20
@@ -49,32 +76,33 @@ python train.py --epoch=20 --batch_size=20
 utils_image.py
 
 ## Loss
-![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/train/loss.png)
+Tnestmeyer loss
+![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/train/loss_one.png)
+
+GCINTRINSICS loss
+![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/train/loss_cgintrinsic.png)
 
 ## Result
-More results are in  
-https://github.com/youngminpark2559/ml_cv_p/tree/master/IID/reflectance_filtering/result  
-
-Prediction intensity image  
-54_000_raw_intensity.png  
+Prediction intensity image
+/home/young/Downloads/test-master/update_CNN/result/54_000_raw_intensity.png
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/result/54_000_raw_intensity.png)
 
 Apply bilater filter (sigmaColor=20, sigmaSpace=20) to above predicted raw intensity image
-54_000_raw_intensity_bi2020.png  
+/home/young/Downloads/test-master/update_CNN/utils/54_000_raw_intensity_bi2020.png
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/utils/54_000_raw_intensity_bi2020.png)
 
 Obtained predicted reflectance image by using 54_000_raw_intensity_bi2020.png and original image 54.png
-54_000_raw_intensity_bi2020_ref.png  
+/home/young/Downloads/test-master/update_CNN/utils/54_000_raw_intensity_bi2020_ref.png
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/utils/54_000_raw_intensity_bi2020_ref.png)
 
 Obtained predicted shading image by using 54_000_raw_intensity_bi2020.png and original image 54.png
-54_000_raw_intensity_bi2020_sha.png  
+/home/young/Downloads/test-master/update_CNN/utils/54_000_raw_intensity_bi2020_sha.png
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/utils/54_000_raw_intensity_bi2020_sha.png)
 
 Apply guided filter (radius=2, eps=2) to 54_000_raw_intensity_bi2020_ref.png
-54_000_raw_intensity_bi2020ref_guided22.png  
+/home/young/Downloads/test-master/update_CNN/utils/54_000_raw_intensity_bi2020ref_guided22.png
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/utils/54_000_raw_intensity_bi2020ref_guided22.png)
 
 Obtained predicted shading image by using 54_000_raw_intensity_bi2020ref_guided22.png and original image 54.png
-54_000_raw_intensity_bi2020sha_guided22.png  
+/home/young/Downloads/test-master/update_CNN/utils/54_000_raw_intensity_bi2020sha_guided22.png
 ![alt text](https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/utils/54_000_raw_intensity_bi2020sha_guided22.png)
