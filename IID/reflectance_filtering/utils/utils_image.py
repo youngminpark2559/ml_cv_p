@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 from skimage.transform import resize
-import sys
+import sys,os
 import scipy.misc
 
 import torch
@@ -25,9 +25,8 @@ from torchvision import transforms
 from torch.autograd import Variable
 
 # ======================================================================
-utils_dir="/home/young/Downloads/test-master/update_CNN/utils"
+utils_dir="./utils"
 sys.path.insert(0,utils_dir)
-
 import utils_common as utils_common
 
 # ======================================================================

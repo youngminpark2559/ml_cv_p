@@ -1,11 +1,27 @@
 # source activate py36gputorch041
 # cd /home/young/Downloads/test-master/update_CNN/train/
+
+# Train
 # rm e.l && python train.py \
 # --epoch=20 \
 # --batch_size=15 \
 # --train_mode=True \
 # --load_data_from_text_file=False \
 # --continue_training=False \
+# --iiw_dataset_dir="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data/temp" \
+# --iiw_dataset_img_text_file="/mnt/1T-5e7/image/whole_dataset/iiw_data_img.txt" \
+# --iiw_dataset_gt_text_file="/mnt/1T-5e7/image/whole_dataset/iiw_data_json.txt" \
+# --checkpoint_save_dir="/home/young/Downloads/test-master/update_CNN/checkpoint" \
+# --checkpoint_file_path="./checkpoint/Direct_Reflectance_Prediction_Net.pth" \
+# 2>&1 | tee -a e.l && code e.l
+
+# Test
+# rm e.l && python train.py \
+# --epoch=20 \
+# --batch_size=15 \
+# --train_mode=False \
+# --load_data_from_text_file=False \
+# --continue_training=True \
 # --iiw_dataset_dir="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data/temp" \
 # --iiw_dataset_img_text_file="/mnt/1T-5e7/image/whole_dataset/iiw_data_img.txt" \
 # --iiw_dataset_gt_text_file="/mnt/1T-5e7/image/whole_dataset/iiw_data_json.txt" \
@@ -50,16 +66,16 @@ else:
 device=torch.device("cuda:0")
 
 # ======================================================================
-currentdir="/home/young/Downloads/test-master/update_CNN/train"
-network_dir="/home/young/Downloads/test-master/update_CNN/networks"
+network_dir="../networks"
 sys.path.insert(0,network_dir)
-loss_function_dir="/home/young/Downloads/test-master/update_CNN/loss_functions"
-sys.path.insert(0,loss_function_dir)
-utils_dir="/home/young/Downloads/test-master/update_CNN/utils"
-sys.path.insert(0,utils_dir)
-
 import networks as networks
+
+loss_function_dir="../loss_functions"
+sys.path.insert(0,loss_function_dir)
 import loss_functions as loss_functions
+
+utils_dir="../utils"
+sys.path.insert(0,utils_dir)
 import utils_common as utils_common
 import utils_image as utils_image
 import utils_net as utils_net
@@ -347,9 +363,15 @@ if __name__ == "__main__":
     
     parser.add_argument(
         "--iiw_dataset_gt_text_file")
+    
+    parser.add_argument(
+        "--project_dir")
 
     # --------------------------------------------------
     # args = parser.parse_args(sys.argv[1:])
     args=parser.parse_args()
+    
+    global global_args
+    global_args=args
 
     train()

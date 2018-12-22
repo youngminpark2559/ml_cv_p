@@ -10,7 +10,7 @@ from sklearn.preprocessing import scale
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.feature_extraction import image
 import timeit
-import sys
+import sys,os
 import glob
 import natsort 
 import torch
@@ -25,10 +25,8 @@ import torchvision.transforms as transforms
 from torchvision import datasets, models, transforms
 
 # ======================================================================
-currentdir="/home/young/Downloads/test-master/update_CNN/utils"
-network_dir="/home/young/Downloads/test-master/update_CNN/networks"
+network_dir="./networks"
 sys.path.insert(0,network_dir)
-
 import networks as networks
 
 # ======================================================================
