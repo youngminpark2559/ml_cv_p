@@ -26,52 +26,25 @@ and so on.
 ## IIW dataset
 http://opensurfaces.cs.cornell.edu/publications/intrinsic/
 
-## Change working directory 
-
-1. Find all /home/young/Downloads/test-master/update_CNN in this project
+## Change project directories to import project modules 
+1. Find all /home/young/Downloads/test-master/update_CNN in this project 
 2. Replace all /home/young/Downloads/test-master/update_CNN with your path, 
 for example, /home/user/your_dir
 
-## Change IIW dataset directory
+## Run example
+python train.py \
+--epoch=20 \
+--batch_size=15 \
+--train_mode=True \
+--load_data_from_text_file=False \
+--continue_training=False \
+--iiw_dataset_dir="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data/temp" \
+--iiw_dataset_img_text_file="/mnt/1T-5e7/image/whole_dataset/iiw_data_img.txt" \
+--iiw_dataset_gt_text_file="/mnt/1T-5e7/image/whole_dataset/iiw_data_json.txt" \
+--checkpoint_save_dir="/home/young/Downloads/test-master/update_CNN/checkpoint" \
+--checkpoint_file_path="./checkpoint/Direct_Reflectance_Prediction_Net.pth" \
+2>&1 | tee -a e.l && code e.l
 
-* Replace following paths in train.py file
-```
-tr_img_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data3/train/*.png"
-gt_json_p="/mnt/1T-5e7/mycodehtml/data_col/cv/IID_f_w_w/iiw-dataset/data3/train/*.json"
-```
-with your path of IIW dataset
-
-## Change model save directory
-Find following
-checkpoint_path="/home/young/Downloads/test-master/update_CNN/checkpoint/Direct_Reflectance_Prediction_Net_"+str(one_ep)+".pth"
-
-## Change model load directory
-Find following
-checkpoint_Direct_Reflectance_Prediction_Net=torch.load(
-
-## Train
-Comment Test part from
-Test trained model
-to before if __name__ == "__main__":
-in train.py
-
-Uncomment from
-Iterates all epochs
-to before Test trained model
-in train.py
-
-## Test
-Comment Train part
-
-Uncomment from
-Test trained model
-to before if __name__ == "__main__":
-in train.py
-
-## Run to create predicted intensity grayscale image
-```
-python train.py --epoch=20 --batch_size=20
-```
 ## After getting predicted intensity image, you can apply bilater and guided filters in
 utils_image.py
 
