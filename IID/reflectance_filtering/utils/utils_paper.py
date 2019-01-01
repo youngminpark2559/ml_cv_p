@@ -1,7 +1,3 @@
-# source activate py36gputorch041
-# cd /home/young/Downloads/test-master/update_CNN/utils/
-# rm e.l && python utils_image.py 2>&1 | tee -a e.l && code e.l
-
 import matplotlib as mpl
 from PIL import Image
 import PIL.ImageOps
