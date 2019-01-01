@@ -47,7 +47,7 @@ python train.py \
 ```
 
 ## After getting predicted intensity image, you can apply bilater and guided filters in
-utils_image.py
+utils_image.py[https://github.com/youngminpark2559/ml_cv_p/blob/master/IID/reflectance_filtering/utils/utils_image.py]
 
 ## Loss
 Tnestmeyer loss
