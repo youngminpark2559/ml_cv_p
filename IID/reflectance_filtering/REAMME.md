@@ -15,12 +15,12 @@
 https://github.com/tnestmeyer/reflectance-filtering
 
 ## Dependencies
-Python 3.6
-PyTorch 0.4.0
-CUDA 0.8
-OpenCV3 and external contrib module for guided and bilateral filters
-Natsort
-Glob
+Python 3.6  
+PyTorch 0.4.0  
+CUDA 0.8  
+OpenCV3 and external contrib module for guided and bilateral filters  
+Natsort  
+Glob  
 and so on.
 
 ## IIW dataset
