@@ -42,8 +42,7 @@ python train.py \
 --iiw_dataset_img_text_file="/mnt/1T-5e7/image/whole_dataset/iiw_data_img.txt" \
 --iiw_dataset_gt_text_file="/mnt/1T-5e7/image/whole_dataset/iiw_data_json.txt" \
 --checkpoint_save_dir="/home/young/Downloads/test-master/update_CNN/checkpoint" \
---checkpoint_file_path="./checkpoint/Direct_Reflectance_Prediction_Net.pth" \
-2>&1 | tee -a e.l && code e.l
+--checkpoint_file_path="./checkpoint/Direct_Reflectance_Prediction_Net.pth"
 
 ## After getting predicted intensity image, you can apply bilater and guided filters in
 utils_image.py
