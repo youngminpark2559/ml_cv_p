@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+   <HEAD>
+      <TITLE>My first HTML document</TITLE>
+      <style rel="stylesheet" type="text/css">
+body {
+ font-size: 23px;
+ 
+ margin-top: 50px;
+    margin-bottom: 50px;
+    margin-right: 80px;
+    margin-left: 80px;
+    
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-right: 80px;
+    padding-left: 80px;
+    
+    line-height:35px;
+},
+img {
+ width:900px;
+}
+</style>
+      <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS" : {
+        availableFonts : ["STIX"],
+        preferredFont : "STIX",
+        webFont : "STIX-Web",
+        imageFont : null
+    }
+});
+</script>
+     <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js" type="text/javascript">    
+    MathJax.Hub.Config({
+        HTML: ["input/TeX","output/HTML-CSS"],
+        TeX: { extensions: ["AMSmath.js","AMSsymbols.js"], 
+               equationNumbers: { autoNumber: "AMS" } },
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX","output/HTML-CSS"],
+        tex2jax: { inlineMath: [ ['$$$','$$$'] ],
+                   displayMath: [ ['$$$$','$$$$'] ],
+                   processEscapes: true },
+        "HTML-CSS": { availableFonts: ["TeX"],
+                      linebreaks: { automatic: true } }
+    });
+</script>
+   </HEAD>
+   <BODY>
+<xmp>
+[Summaries]
+3. Approach
+Furthermore, convolutional features naturally retain spatial information which
+is lost in fully-connected layers, so we can expect the last convolutional
+layers to have the best compromise between high-level semantics and detailed
+spatial information
+
+The neurons in these layers look for semantic class-specific information in the
+image (say object parts). Grad-CAM uses the gradient information flowing into
+the last convolutional layer of the CNN to understand the importance of each
+neuron for a decision of interest.
+
+Although our technique is very generic and can be used to visualize any
+activation in a deep network, in this work we focus on explaining decisions the
+network can possibly make.
+
+[My notes]
+As shown in Fig. 2, in order to obtain the following "class discriminative
+localization map"
+$$$L_{Grad-CAM}^c \in R^{u\times v}$$$
+$$$u$$$ is width, $$$v$$$ is height, $$$c$$$ is class
+
+You do following steps.
+1. You compute gradient value of score $$$y^c$$$, for any class c (before sofmax
+layer)
+with respect to feature map $$$A^k$$$ of (probably last) convolutional layer.
+$$$\dfrac{\partial y^c}{\partial A_{ij}^k}$$$
+Above gradient is computed in backpropagation step.
+2. You perform global average pooling on abvoe gradient value
+to obtain neuron importance weights $$$\alpha_k^c$$$
+
+[Summaries]
+This weight αck represents a partial linearization of the deep network
+downstream from A,
+and captures the ‘importance’ of feature map k for a target class c.
+
+[My notes]
+$$$L_{GradCAM}^c=\text{ReLU}(\alpha_1^c A^1 + \cdots + \alpha_k^c A^k)$$$
+
+$$$L_{GradCAM}^c$$$: class discriminative localization map for a specific target
+class c
+
+$$$\alpha_k^c$$$: weights representing partial linearization of the deep network
+downstream from A,
+It captures the ‘importance’ of k-th feature map for target class c.
+
+[Summaries]
+Notice that this results in a coarse heat-map of the same size as the
+convolutional feature maps (14 × 14 in the case of last convolutional layers of
+VGG [45] and AlexNet [27] networks).
+
+We apply a ReLU to the linear combination of maps because we are only interested
+in the features that have a positive influence on the class of interest, i.e.
+pixels whose intensity should be increased in order to increase $$$y^c$$$.
+
+
+Negative pixels are likely to belong to other categories in the image. As
+expected, without this ReLU, localization maps sometimes highlight more than
+just the desired class and achieve lower localization performance.
+
+In general, $$$y^c$$$ need not be the class score produced by an image
+classification CNN. It could be any differentiable activation including words
+from a caption or the answer to a question.
+
+[My notes]
+Figure 2:
+1. Prepare input image and class
+2. Perform forward and get score from like softmax.
+3. Sets all gradients to 0 for all classes except for target class which you
+want to inspect
+4. This signal is then backpropagated to the rectified convolutional feature
+maps of interest, which we combine to compute the coarse Grad-CAM localization
+(blue heatmap) which represents where the model has to look to make the
+particular decision.
+5. Finally, we pointwise multiply the "heatmap" with "guided backpropagation" to
+get "Guided Grad-CAM" visualizations which are both high-resolution and
+concept-specific.
+</xmp>
+   </BODY>
+</HTML>
