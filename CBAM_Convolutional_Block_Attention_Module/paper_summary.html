@@ -173,7 +173,7 @@ MLP_shared_net():
   ReLU
   FC2
 
-  feat_max_MLP_in_CAM=MLP_shared_net(feat_max_in_CAM)
+feat_max_MLP_in_CAM=MLP_shared_net(feat_max_in_CAM)
 feat_avg_MLP_in_CAM=sigmoid(MLP_shared_net(feat_avg_in_CAM))
 channel_attention_1D=elementwise_sum(feat_max_MLP_in_CAM,feat_avg_MLP_in_CAM)
 feat_after_CAM=elementwise_mul(channel_attention_1D,feature_map) -->
@@ -190,7 +190,7 @@ MLP_shared_net():
   ReLU
   FC2
 
-  feat_max_MLP_in_CAM<span style="color: #333333">=</span>MLP_shared_net(feat_max_in_CAM)
+feat_max_MLP_in_CAM<span style="color: #333333">=</span>MLP_shared_net(feat_max_in_CAM)
 feat_avg_MLP_in_CAM<span style="color: #333333">=</span>sigmoid(MLP_shared_net(feat_avg_in_CAM))
 channel_attention_1D<span style="color: #333333">=</span>elementwise_sum(feat_max_MLP_in_CAM,feat_avg_MLP_in_CAM)
 feat_after_CAM<span style="color: #333333">=</span>elementwise_mul(channel_attention_1D,feature_map)
@@ -215,9 +215,11 @@ which is complementary to the channel attention.
 feat_max_in_SAM=max_pool(feat_after_CAM)
 feat_avg_in_SAM=avg_pool(feat_after_CAM)
 feat_cat_in_SAM=concat(feat_max_in_SAM,feat_avg_in_SAM) # @ Define conv net
+
 conv_net(): 
   conv2d(kernel=(7,7))
   sigmoid()
+
 feat_conv_in_SAM=conv_net(feat_cat_in_SAM) -->
 <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888"># @ Spatial Attention Module </span>
 feat_max_in_SAM<span style="color: #333333">=</span>max_pool(feat_after_CAM)
