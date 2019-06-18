@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+   <HEAD>
+      <TITLE>My first HTML document</TITLE>
+      <style rel="stylesheet" type="text/css">
+body {
+ font-size: 20px;
+ 
+ margin-top: 50px;
+    margin-bottom: 50px;
+    margin-right: 80px;
+    margin-left: 100px;
+    
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-right: 80px;
+    padding-left: 80px;
+    
+    line-height:35px;
+}
+/* img {
+ width:900px;
+} */
+</style>
+      <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS" : {
+        availableFonts : ["STIX"],
+        preferredFont : "STIX",
+        webFont : "STIX-Web",
+        imageFont : null
+    }
+});
+</script>
+     <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js" type="text/javascript">    
+    MathJax.Hub.Config({
+        HTML: ["input/TeX","output/HTML-CSS"],
+        TeX: { extensions: ["AMSmath.js","AMSsymbols.js"], 
+               equationNumbers: { autoNumber: "AMS" } },
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX","output/HTML-CSS"],
+        tex2jax: { inlineMath: [ ['$$$','$$$'] ],
+                   displayMath: [ ['$$$$','$$$$'] ],
+                   processEscapes: true },
+        "HTML-CSS": { availableFonts: ["TeX"],
+                      linebreaks: { automatic: true } }
+    });
+</script>
+   </HEAD>
+   <BODY>
+<xmp>
+
+Test "spell check algorithm using N-gram" 
+citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.186.3996&rep=rep1&type=pdf
+along with Levenshtein distance algorithm
+
+================================================================================
+Test "spell check algorithm using N-gram" by using 2 words: helro (misspelled one), hello (correct word)
+u: helro   he  el  lr  ro 
+v: hello   he  el  ll  lo
+
+u_{1,1}=substring(helro,1,1)=h
+v_{1,1}=substring(hello,1,1)=h
+
+u_{5,5}=substring(helro,5,5)=o
+v_{5,5}=substring(hello,5,5)=o
+
+g(h,h)=1
+
+g(o,o)=1
+
+$$$\sum\limits_{i=2}^{4} \sum\limits_{j=-1}^{1} g(u_{i,i+(n-1)},v_{i+j,i+j+(n-1)})$$$
+
+$$$\sum\limits_{i=2}^{4} g(u_{i,i+1},v_{i-1,i}) + g(u_{i,i+1},v_{i,i+1}) + g(u_{i,i+1},v_{i+1,i+2}) $$$
+
+$$$g(u_{2,3},v_{1,2}) + g(u_{3,4},v_{2,3}) + g(u_{4,5},v_{3,4}) \\
++ g(u_{2,3},v_{2,3}) + g(u_{3,4},v_{3,4}) + g(u_{4,5},v_{4,5}) \\
++ g(u_{2,3},v_{3,4}) + g(u_{3,4},v_{4,5}) + g(u_{4,5},v_{5,6}) $$$
+
+u: helro
+v: hello
+
+g(el,he) + g(lr,el) + g(ro,ll) 
++ g(el,el) + g(lr,ll) + g(ro,lo)
++ g(el,ll) + g(lr,lo) + g(ro,o )
+= 0+0+0 + 1+0+0 + 0+0+0
+
+helro: he, el, lr, ro
+hello: he, el, ll, lo
+The number of unique union 2gram: 5 (he, el, lr, ro, ll, lo)
+
+$$$S_{2,3}("hello","helro") = \dfrac{(1+1) + (0+0+0 + 1+0+0 + 0+0+0)}{5} = 0.6$$$ 
+
+================================================================================
+Test spell check algorithm + Levenshtein distance algorithm by using words of Giama (misspelled one), 
+Giana (correct word candidate1), Giina (correct word candidate2), Giani (correct word candidate3)
+
+================================================================================
+Typo: Giama
+Correct candidates: Giana, Giina, Giani (which correction is the best for the misspelled Giama?)
+
+================================================================================
+Case1
+
+Correction candidate_1: Giana
+u: Giama   Gi  ia  am  ma
+v: Giana   Gi  ia  an  na
+
+$$$u_{1,1}$$$=substring(Giama,1,1)=G
+$$$v_{1,1}$$$=substring(Giana,1,1)=G
+
+$$$u_{5,5}$$$=substring(Giama,5,5)=a
+$$$v_{5,5}$$$=substring(Giana,5,5)=a
+
+g(G,G)=1
+
+g(a,a)=1
+
+$$$\sum\limits_{i=2}^{4} \sum\limits_{j=-1}^{1} g(u_{i,i+(n-1)},v_{i+j,i+j+(n-1)})$$$
+
+$$$\sum\limits_{i=2}^{4} g(u_{i,i+1},v_{i-1,i}) + g(u_{i,i+1},v_{i,i+1}) + g(u_{i,i+1},v_{i+1,i+2}) $$$
+
+$$$g(u_{2,3},v_{1,2}) + g(u_{3,4},v_{2,3}) + g(u_{4,5},v_{3,4}) \\
++ g(u_{2,3},v_{2,3}) + g(u_{3,4},v_{3,4}) + g(u_{4,5},v_{4,5}) \\
++ g(u_{2,3},v_{3,4}) + g(u_{3,4},v_{4,5}) + g(u_{4,5},v_{5,6}) $$$
+
+u: Giama
+v: Giana
+
+g(ia,Gi) + g(am,ia) + g(ma,an) 
++ g(ia,ia) + g(am,an) + g(ma,na)
++ g(ia,an) + g(am,na) + g(ma,a )
+= 0+0+0 + 1+0+0 + 0+0+0
+
+Giama: Gi, ia, am, ma
+Giana: Gi, ia, an, na
+The number of unique union 2gram: 6 ('am', 'ma', 'ia', 'Gi', 'an', 'na')
+
+$$$S_{2,3}("Giama","Giana") = \dfrac{(1+1) + (0+0+0 + 1+0+0 + 0+0+0)}{6} = 0.5$$$ 
+
+================================================================================
+Case2
+
+Correction candidate_2: Giina
+
+u: Giama   Gi  ia  am  ma
+v: Giina   Gi  ii  in  na
+
+$$$u_{1,1}$$$=substring(Giama,1,1)=G
+$$$v_{1,1}$$$=substring(Giina,1,1)=G
+
+$$$u_{5,5}$$$=substring(Giama,5,5)=a
+$$$v_{5,5}$$$=substring(Giina,5,5)=a
+
+g(G,G)=1
+g(a,a)=1
+
+$$$\sum\limits_{i=2}^{4} \sum\limits_{j=-1}^{1} g(u_{i,i+(n-1)},v_{i+j,i+j+(n-1)})$$$
+
+$$$\sum\limits_{i=2}^{4} g(u_{i,i+1},v_{i-1,i}) + g(u_{i,i+1},v_{i,i+1}) + g(u_{i,i+1},v_{i+1,i+2}) $$$
+
+$$$g(u_{2,3},v_{1,2}) + g(u_{3,4},v_{2,3}) + g(u_{4,5},v_{3,4}) \\
++ g(u_{2,3},v_{2,3}) + g(u_{3,4},v_{3,4}) + g(u_{4,5},v_{4,5}) \\
++ g(u_{2,3},v_{3,4}) + g(u_{3,4},v_{4,5}) + g(u_{4,5},v_{5,6}) $$$
+
+u: Giama
+v: Giina
+
+g(ia,Gi) + g(am,ii) + g(ma,in) 
++ g(ia,ia) + g(am,in) + g(ma,na)
++ g(ia,in) + g(am,na) + g(ma,a )
+= 0+0+0 + 1+0+0 + 0+0+0
+
+Giama: Gi  ia  am  ma
+Giina: Gi  ii  in  na
+
+The number of unique union 2gram: 7 ('am', 'ma', 'ia', 'ii', 'Gi', 'in', 'na')
+
+$$$S_{2,3}("Giama","Giana") = \dfrac{(1+1) + (0+0+0 + 1+0+0 + 0+0+0)}{7} = 0.43$$$
+
+================================================================================
+Case3
+
+Correction candidate_2: Giani
+
+u: Giama   Gi  ia  am  ma
+v: Giani   Gi  ia  an  ni
+
+$$$u_{1,1}$$$=substring(Giama,1,1)=G
+$$$v_{1,1}$$$=substring(Giani,1,1)=G
+
+$$$u_{5,5}$$$=substring(Giama,5,5)=a
+$$$v_{5,5}$$$=substring(Giani,5,5)=i
+
+g(G,G)=1
+g(a,i)=0
+
+$$$\sum\limits_{i=2}^{4} \sum\limits_{j=-1}^{1} g(u_{i,i+(n-1)},v_{i+j,i+j+(n-1)})$$$
+
+$$$\sum\limits_{i=2}^{4} g(u_{i,i+1},v_{i-1,i}) + g(u_{i,i+1},v_{i,i+1}) + g(u_{i,i+1},v_{i+1,i+2}) $$$
+
+$$$g(u_{2,3},v_{1,2}) + g(u_{3,4},v_{2,3}) + g(u_{4,5},v_{3,4}) \\
++ g(u_{2,3},v_{2,3}) + g(u_{3,4},v_{3,4}) + g(u_{4,5},v_{4,5}) \\
++ g(u_{2,3},v_{3,4}) + g(u_{3,4},v_{4,5}) + g(u_{4,5},v_{5,6}) $$$
+
+u: Giama
+v: Giani
+
+g(ia,Gi) + g(am,ia) + g(ma,an) 
++ g(ia,ia) + g(am,an) + g(ma,ni)
++ g(ia,an) + g(am,ni) + g(ma,i )
+= 0+0+0 + 1+0+0 + 0+0+0
+
+Giama: Gi  ia  am  ma
+Giani: Gi  ia  an  ni
+
+The number of unique union 2gram: 6 ('am', 'ma', 'ia', 'Gi', 'an', 'ni')
+
+$$$S_{2,3}("Giama","Giana") = \dfrac{(1+1) + (0+0+0 + 1+0+0 + 0+0+0)}{6} = 0.5$$$
+
+================================================================================
+Use Levenshtein distance (or edit distance as synonym)
+
+# u: Giama   Gi  ia  am  ma
+# v: Giana   Gi  ia  an  na
+
+# u: Giama   Gi  ia  am  ma
+# v: Giani   Gi  ia  an  ni
+
+one_misspelled_one="Giama"
+one_word="Giana"
+score_val=nltk.edit_distance(one_misspelled_one,one_word)
+# 1
+
+one_misspelled_one="Giama"
+one_word="Giani"
+score_val=nltk.edit_distance(one_misspelled_one,one_word)
+# 2
+
+================================================================================
+Distance: 1 < Distance: 2
+
+Therefore, "Giana" is the best correction word for the misspelled "Giama"
+
+</xmp>
+   </BODY>
+</HTML>
